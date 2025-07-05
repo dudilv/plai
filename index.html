@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Value of AI-QC in Digital Pathology | Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-arrow-down::after {
+            content: '↓';
+            font-size: 2rem;
+            color: #ca6702;
+            line-height: 1;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0a9396;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-[#e9d8a6]">
+
+    <header class="bg-[#005f73] text-white p-6 sm:p-8 text-center shadow-lg">
+        <h1 class="text-3xl md:text-5xl font-black tracking-tight">The Hidden Factory in Your Lab</h1>
+        <p class="mt-2 md:text-xl max-w-4xl mx-auto text-[#94d2bd]">Uncovering the Staggering Cost of Poor Slide Quality and the Power of an AI-Driven Solution</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="problem" class="text-center bg-white rounded-2xl shadow-xl p-6 md:p-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#005f73]">Your Lab Is Losing Over <span class="text-[#ae2012]">$1.2 Million</span> Annually</h2>
+            <p class="max-w-3xl mx-auto mt-4 text-gray-600">
+                A seemingly small 10% problematic slide rate creates a massive, hidden factory of inefficiency. This constant rework drains your budget, delays diagnoses, and burns out your highly-skilled staff. We analyzed a typical high-volume lab to quantify this drain.
+            </p>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-gray-700">Problematic Slide Rate</h3>
+                    <p class="text-7xl font-black text-[#ca6702] mt-2">10%</p>
+                    <p class="text-gray-600 mt-2">Of 250,000 annual slides require costly rework.</p>
+                </div>
+                <div class="chart-container h-64 md:h-auto">
+                    <canvas id="problematicSlidesChart"></canvas>
+                </div>
+            </div>
+             <p class="mt-8 text-sm text-gray-500 italic">Based on a model lab processing 250,000 slides per year with a 10% failure rate.</p>
+        </section>
+
+        <section id="cost-breakdown" class="mt-12">
+             <h2 class="text-2xl md:text-3xl font-bold text-[#005f73] text-center">Deconstructing the Cost of a Single Failed Slide</h2>
+             <p class="max-w-3xl mx-auto mt-2 text-gray-700 text-center">Every time a slide fails, it triggers a cascade of direct material and labor costs. The time of your most valuable assets—your pathologists and histotechnologists—is consumed by fixing preventable errors.</p>
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                <div class="lg:col-span-2 flex flex-col space-y-4">
+                    <div class="bg-white rounded-lg shadow-lg p-4">
+                        <h4 class="font-bold text-[#0a9396]">Direct Rework Cost: $25.00</h4>
+                        <p class="text-sm text-gray-600">Includes new slides, reagents, coverslips, and the amortized cost of rescanning the WSI.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-4">
+                         <h4 class="font-bold text-[#ee9b00]">Wasted Labor Cost: $23.59</h4>
+                        <p class="text-sm text-gray-600">Combines 15 minutes of a Histotechnologist's time ($9.62) and 5 minutes of a Pathologist's time ($13.97) spent on the rework cycle.</p>
+                    </div>
+                     <div class="bg-[#005f73] text-white rounded-lg shadow-lg p-4 text-center">
+                         <h4 class="text-lg font-bold">Total Cost Per Failure</h4>
+                         <p class="text-4xl font-black">$48.59</p>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 bg-white rounded-2xl shadow-xl p-6">
+                    <h3 class="text-xl font-bold text-center text-[#005f73]">Cost Composition per Failed Slide</h3>
+                    <div class="chart-container">
+                         <canvas id="costCompositionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gemini-calculator" class="mt-12 bg-white rounded-2xl shadow-xl p-6 md:p-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#005f73] text-center">Calculate Your Lab's Personalized ROI</h2>
+            <p class="max-w-3xl mx-auto mt-2 text-gray-700 text-center">The model above is a baseline. Enter your lab's actual numbers below to get a custom financial analysis powered by the Gemini API.</p>
+            <div class="mt-8 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="slideVolume" class="block text-sm font-medium text-gray-700">Annual Slide Volume</label>
+                        <input type="number" id="slideVolume" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#005f73] focus:ring-[#005f73] sm:text-sm" value="250000">
+                    </div>
+                    <div>
+                        <label for="failureRate" class="block text-sm font-medium text-gray-700">Problematic Slide Rate (%)</label>
+                        <input type="number" id="failureRate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#005f73] focus:ring-[#005f73] sm:text-sm" value="10">
+                    </div>
+                    <div>
+                        <label for="histoWage" class="block text-sm font-medium text-gray-700">Histotechnologist Hourly Wage ($)</label>
+                        <input type="number" id="histoWage" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#005f73] focus:ring-[#005f73] sm:text-sm" value="38.50">
+                    </div>
+                    <div>
+                        <label for="pathWage" class="block text-sm font-medium text-gray-700">Pathologist Hourly Wage ($)</label>
+                        <input type="number" id="pathWage" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#005f73] focus:ring-[#005f73] sm:text-sm" value="167.65">
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <button id="calculateRoiBtn" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#ca6702] hover:bg-[#ae2012] md:py-4 md:text-lg md:px-10 transition-colors">
+                        ✨ Calculate My Personalized ROI
+                    </button>
+                </div>
+            </div>
+            <div id="gemini-results-container" class="mt-8 max-w-4xl mx-auto hidden">
+                <div id="gemini-loader" class="flex justify-center items-center py-8">
+                    <div class="loader"></div>
+                    <p class="ml-4 text-gray-600">Analyzing your data with Gemini...</p>
+                </div>
+                <div id="gemini-error" class="hidden text-center p-4 bg-red-100 text-red-700 rounded-lg">
+                    <p>Sorry, there was an error communicating with the API. Please try again.</p>
+                </div>
+                <div id="gemini-results" class="hidden">
+                    <h3 class="text-xl md:text-2xl font-bold text-[#005f73] text-center">Your Custom Analysis is Ready</h3>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                        <div class="bg-red-50 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-red-800">Estimated Annual Loss</h4>
+                            <p id="annualLoss" class="text-4xl font-black text-[#ae2012] mt-1"></p>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-green-800">Potential Annual Savings</h4>
+                            <p id="annualSavings" class="text-4xl font-black text-[#0a9396] mt-1"></p>
+                        </div>
+                         <div class="bg-blue-50 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-blue-800">Payback Period</h4>
+                            <p id="payback" class="text-4xl font-black text-[#005f73] mt-1"></p>
+                        </div>
+                        <div class="bg-yellow-50 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-yellow-800">5-Year ROI</h4>
+                            <p id="roi" class="text-4xl font-black text-[#ca6702] mt-1"></p>
+                        </div>
+                    </div>
+                     <div id="business-case-section" class="mt-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-[#005f73] text-center">Take the Next Step</h3>
+                        <p class="max-w-2xl mx-auto mt-2 text-gray-700 text-center">Use Gemini to draft a professional business case summary based on your personalized results.</p>
+                        <div class="mt-4 text-center">
+                            <button id="generateCaseBtn" class="px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-[#005f73] hover:bg-[#0a9396] transition-colors">
+                                ✨ Draft Business Case for CFO
+                            </button>
+                        </div>
+                        <div id="case-loader" class="hidden flex justify-center items-center py-4">
+                            <div class="loader"></div>
+                            <p class="ml-4 text-gray-600">Drafting your summary...</p>
+                        </div>
+                        <div id="case-results" class="hidden mt-4">
+                            <textarea id="businessCaseText" readonly class="w-full h-64 p-2 border border-gray-300 rounded-md bg-gray-50"></textarea>
+                            <button id="copyCaseBtn" class="mt-2 px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-md hover:bg-gray-300">Copy to Clipboard</button>
+                            <span id="copy-feedback" class="ml-2 text-sm text-green-600 hidden">Copied!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="mt-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#005f73] text-center">The Solution: Intercepting Errors with AI</h2>
+            <p class="max-w-3xl mx-auto mt-2 text-gray-700 text-center">An automated AI-QC platform transforms the workflow. Instead of pathologists finding errors downstream, the AI acts as an intelligent gatekeeper, flagging flawed images immediately after scanning.</p>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-red-100 border-2 border-dashed border-[#ae2012] rounded-2xl p-6">
+                    <h3 class="text-2xl font-bold text-[#ae2012] text-center">BEFORE AI-QC: The Rework Loop</h3>
+                    <div class="mt-4 flex flex-col items-center space-y-2">
+                         <div class="bg-white p-3 rounded-lg shadow w-full text-center">1. Slide is Scanned</div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center">2. Pathologist Reviews WSI</div>
+                        <div class="flow-arrow-down"></div>
+                         <div class="bg-white p-3 rounded-lg shadow w-full text-center font-bold text-red-700">3. Finds Critical Artifact!</div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center">4. Rejects Slide, Notifies Lab</div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center">5. Rework (Re-cut, Re-stain)</div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center font-bold text-red-700">6. 24-48 Hour Delay</div>
+                    </div>
+                </div>
+                 <div class="bg-green-100 border-2 border-dashed border-[#0a9396] rounded-2xl p-6">
+                    <h3 class="text-2xl font-bold text-[#0a9396] text-center">AFTER AI-QC: Streamlined Workflow</h3>
+                     <div class="mt-4 flex flex-col items-center space-y-2">
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center">1. Slide is Scanned</div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center font-bold text-green-700">2. AI-QC Instantly Analyzes</div>
+                        <div class="flow-arrow-down"></div>
+                         <div class="bg-white p-3 rounded-lg shadow w-full text-center">3. Flawed slide flagged & reworked immediately</div>
+                        <div class="flow-arrow-down"></div>
+                        <div class="bg-white p-3 rounded-lg shadow w-full text-center">4. Only Quality Slides Proceed</div>
+                        <div class="flow-arrow-down"></div>
+                         <div class="bg-white p-3 rounded-lg shadow w-full text-center">5. Pathologist Receives Perfect WSI</div>
+                        <div class="flow-arrow-down"></div>
+                         <div class="bg-white p-3 rounded-lg shadow w-full text-center font-bold text-green-700">6. No Delay, No Wasted Time</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 bg-[#005f73] text-white text-center p-6">
+        <p class="font-bold">Ready to dismantle your hidden factory?</p>
+        <p class="text-sm text-[#94d2bd]">Investing in automated QC is a foundational step to de-risk your digital pathology program and unlock its full potential.</p>
+    </footer>
+
+    <script>
+        const calculateRoiBtn = document.getElementById('calculateRoiBtn');
+        const generateCaseBtn = document.getElementById('generateCaseBtn');
+        const copyCaseBtn = document.getElementById('copyCaseBtn');
+
+        const resultsContainer = document.getElementById('gemini-results-container');
+        const loader = document.getElementById('gemini-loader');
+        const errorDiv = document.getElementById('gemini-error');
+        const resultsDiv = document.getElementById('gemini-results');
+
+        const caseLoader = document.getElementById('case-loader');
+        const caseResults = document.getElementById('case-results');
+
+        let lastCalculationResults = {};
+
+        calculateRoiBtn.addEventListener('click', handleRoiCalculation);
+        generateCaseBtn.addEventListener('click', handleBusinessCaseGeneration);
+        copyCaseBtn.addEventListener('click', copyBusinessCase);
+
+        async function handleRoiCalculation() {
+            resultsContainer.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            caseResults.style.display = 'none';
+            loader.style.display = 'flex';
+            calculateRoiBtn.disabled = true;
+
+            const slideVolume = document.getElementById('slideVolume').value;
+            const failureRate = document.getElementById('failureRate').value;
+            const histoWage = document.getElementById('histoWage').value;
+            const pathWage = document.getElementById('pathWage').value;
+
+            const prompt = `
+                Analyze the financial impact of poor slide quality for a pathology lab with the following characteristics:
+                - Annual slide volume: ${slideVolume}
+                - Problematic slide rate: ${failureRate}%
+                - Histotechnologist hourly wage: $${histoWage}
+                - Pathologist hourly wage: $${pathWage}
+
+                Calculation assumptions:
+                - Fixed material and scanning cost per failed slide: $25.
+                - Rework time per failed slide: 15 minutes of histotechnologist time and 5 minutes of pathologist time.
+                - An AI QC solution costs $150,000 for the first year and has an annual maintenance cost of $30,000 thereafter.
+                - The AI QC solution catches 95% of all problematic slides before they reach the pathologist.
+
+                Provide the output as a JSON object.
+            `;
+
+            const payload = {
+              contents: [{ role: "user", parts: [{ text: prompt }] }],
+              generationConfig: {
+                  responseMimeType: "application/json",
+                  responseSchema: {
+                      type: "OBJECT",
+                      properties: {
+                          "totalAnnualLoss": { "type": "NUMBER", "description": "Total annual cost from failed slides before AI." },
+                          "potentialAnnualSavings": { "type": "NUMBER", "description": "Net annual savings in the first year after accounting for AI cost." },
+                          "paybackPeriodMonths": { "type": "NUMBER", "description": "Number of months to pay back the initial AI investment." },
+                          "fiveYearROI": { "type": "NUMBER", "description": "The 5-year return on investment as a percentage." }
+                      },
+                      required: ["totalAnnualLoss", "potentialAnnualSavings", "paybackPeriodMonths", "fiveYearROI"]
+                  }
+              }
+            };
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    const data = JSON.parse(text);
+                    lastCalculationResults = data;
+                    displayResults(data);
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                errorDiv.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+                calculateRoiBtn.disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            document.getElementById('annualLoss').textContent = formatCurrency(data.totalAnnualLoss);
+            document.getElementById('annualSavings').textContent = formatCurrency(data.potentialAnnualSavings);
+            document.getElementById('payback').textContent = `${data.paybackPeriodMonths.toFixed(1)} Months`;
+            document.getElementById('roi').textContent = `${data.fiveYearROI.toFixed(0)}%`;
+            resultsDiv.style.display = 'block';
+        }
+
+        async function handleBusinessCaseGeneration() {
+            caseLoader.style.display = 'flex';
+            caseResults.style.display = 'none';
+            generateCaseBtn.disabled = true;
+
+            const { totalAnnualLoss, potentialAnnualSavings, paybackPeriodMonths, fiveYearROI } = lastCalculationResults;
+
+            const prompt = `
+                You are a lab director writing a concise and persuasive business case to your CFO to justify purchasing an AI-powered Quality Control solution for digital pathology.
+                Use the following personalized data points in your summary:
+                - Current estimated annual loss from rework: ${formatCurrency(totalAnnualLoss)}
+                - Potential net annual savings (Year 1): ${formatCurrency(potentialAnnualSavings)}
+                - Payback period: ${paybackPeriodMonths.toFixed(1)} months
+                - 5-Year ROI: ${fiveYearROI.toFixed(0)}%
+
+                Draft a 3-paragraph executive summary. Start with the problem (the financial drain), then present the solution and its immediate financial benefits (savings, payback). Conclude with the long-term strategic value (ROI, operational efficiency). The tone should be professional, data-driven, and confident. Do not include a subject line or salutation.
+            `;
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: prompt }] }]
+            };
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    document.getElementById('businessCaseText').value = text;
+                    caseResults.style.display = 'block';
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+
+            } catch (error) {
+                console.error("Error generating business case:", error);
+                alert("Failed to generate business case. Please try again.");
+            } finally {
+                caseLoader.style.display = 'none';
+                generateCaseBtn.disabled = false;
+            }
+        }
+
+        function copyBusinessCase() {
+            const textArea = document.getElementById('businessCaseText');
+            textArea.select();
+            document.execCommand('copy');
+
+            const feedback = document.getElementById('copy-feedback');
+            feedback.style.display = 'inline';
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 2000);
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+        }
+
+        function createProblematicSlidesChart() {
+            const ctx = document.getElementById('problematicSlidesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Problematic Slides', 'Good Slides'],
+                    datasets: [{ data: [10, 90], backgroundColor: ['#ae2012', '#0a9396'], borderColor: '#ffffff', borderWidth: 2 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        function createCostCompositionChart() {
+            const ctx = document.getElementById('costCompositionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cost per Failed Slide'],
+                    datasets: [
+                        { label: 'Direct Rework Cost', data: [25.00], backgroundColor: '#0a9396', stack: 'Stack 0' },
+                        { label: 'Wasted Labor Cost', data: [23.59], backgroundColor: '#ee9b00', stack: 'Stack 0' },
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { stacked: true }, y: { stacked: true, ticks: { display: false } } }, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        window.onload = function() {
+            try {
+                createProblematicSlidesChart();
+                createCostCompositionChart();
+            } catch (e) {
+                console.error("Chart rendering failed: ", e);
+            }
+        };
+    </script>
+</body>
+</html>
